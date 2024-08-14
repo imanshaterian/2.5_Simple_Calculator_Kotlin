@@ -31,7 +31,6 @@ class MainActivity : ComponentActivity() {
             _25_Simple_Calculator_KotlinTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     CalculatorUI(
-                        name = "Android",
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -40,8 +39,9 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+// UI structure
 @Composable
-fun CalculatorUI(name: String, modifier: Modifier = Modifier) {
+fun CalculatorUI(modifier: Modifier = Modifier) {
     var displayText by remember { mutableStateOf("0") }
 
     Column {
@@ -67,17 +67,39 @@ fun CalculatorUI(name: String, modifier: Modifier = Modifier) {
         Row {
             Button(onClick = { displayText = "0" }) { Text(text = "c")}
             Button(onClick = { displayText += "0" }) { Text(text = "0")}
-            Button(onClick = { /*TODO*/ }) { Text(text = "=")}
+            Button(onClick = { displayText = calculateResult(displayText) }) { Text(text = "=")}
             Button(onClick = { displayText += "+" }) { Text(text = "+")}
         }
     }
 
 }
 
+fun calculateResult(displayText: String): String{
+    // split the text into two numbers and a operator
+    val regex = Regex("([+\\-*/])")
+    val parts = displayText.split(regex).filter { it.isNotEmpty() }
+
+    if (parts.size <2) return displayText //in case only one number was entered
+
+    val firstNumber = parts[0].toDoubleOrNull() ?: return "Error" //getting the first number
+    val secondNumber = parts[1].toDoubleOrNull() ?: return "Error" //getting the second number
+
+    // get the operator
+    val operator = displayText.firstOrNull { it in "/*-+" } ?: return "Error"
+    // do the calculation according to the operator
+    return when (operator){
+        '+' -> (firstNumber + secondNumber).toString()
+        '-' -> (firstNumber - secondNumber).toString()
+        '*' -> (firstNumber * secondNumber).toString()
+        '/' -> if(secondNumber != 0.0) (firstNumber / secondNumber).toString() else "Error"
+        else -> "Error"
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun CalculatorPreview() {
     _25_Simple_Calculator_KotlinTheme {
-        CalculatorUI("Android")
+        CalculatorUI()
     }
 }
