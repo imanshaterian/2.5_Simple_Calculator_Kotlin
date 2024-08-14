@@ -13,6 +13,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,31 +42,33 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun CalculatorUI(name: String, modifier: Modifier = Modifier) {
+    var displayText by remember { mutableStateOf("0") }
+
     Column {
-        Text(text = "0", modifier.fillMaxWidth(), textAlign = TextAlign.End, fontSize = 48.sp)
+        Text(text = displayText, modifier.fillMaxWidth(), textAlign = TextAlign.End, fontSize = 48.sp)
         Row {
-            Button(onClick = { /*TODO*/ }) { Text(text = "1")}
-            Button(onClick = { /*TODO*/ }) { Text(text = "2")}
-            Button(onClick = { /*TODO*/ }) { Text(text = "3")}
-            Button(onClick = { /*TODO*/ }) { Text(text = "/")}
+            Button(onClick = { displayText += "1" }) { Text(text = "1")}
+            Button(onClick = { displayText += "2" }) { Text(text = "2")}
+            Button(onClick = { displayText += "3" }) { Text(text = "3")}
+            Button(onClick = { displayText += "/" }) { Text(text = "/")}
         }
         Row {
-            Button(onClick = { /*TODO*/ }) { Text(text = "4")}
-            Button(onClick = { /*TODO*/ }) { Text(text = "5")}
-            Button(onClick = { /*TODO*/ }) { Text(text = "6")}
-            Button(onClick = { /*TODO*/ }) { Text(text = "*")}
+            Button(onClick = { displayText += "4" }) { Text(text = "4")}
+            Button(onClick = { displayText += "5" }) { Text(text = "5")}
+            Button(onClick = { displayText += "6" }) { Text(text = "6")}
+            Button(onClick = { displayText += "*" }) { Text(text = "*")}
         }
         Row {
-            Button(onClick = { /*TODO*/ }) { Text(text = "7")}
-            Button(onClick = { /*TODO*/ }) { Text(text = "8")}
-            Button(onClick = { /*TODO*/ }) { Text(text = "9")}
-            Button(onClick = { /*TODO*/ }) { Text(text = "-")}
+            Button(onClick = { displayText += "7" }) { Text(text = "7")}
+            Button(onClick = { displayText += "8" }) { Text(text = "8")}
+            Button(onClick = { displayText += "9" }) { Text(text = "9")}
+            Button(onClick = { displayText += "-" }) { Text(text = "-")}
         }
         Row {
-            Button(onClick = { /*TODO*/ }) { Text(text = "c")}
-            Button(onClick = { /*TODO*/ }) { Text(text = "0")}
+            Button(onClick = { displayText = "0" }) { Text(text = "c")}
+            Button(onClick = { displayText += "0" }) { Text(text = "0")}
             Button(onClick = { /*TODO*/ }) { Text(text = "=")}
-            Button(onClick = { /*TODO*/ }) { Text(text = "+")}
+            Button(onClick = { displayText += "+" }) { Text(text = "+")}
         }
     }
 
